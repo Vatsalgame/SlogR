@@ -1,6 +1,5 @@
 package com.slogr.core;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -34,7 +33,7 @@ public class User {
         return email;
     }
 
-    @JsonIgnore
+    @JsonProperty
     public String getPassword() {
         return password;
     }
