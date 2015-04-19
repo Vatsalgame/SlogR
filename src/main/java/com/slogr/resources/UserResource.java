@@ -2,6 +2,7 @@ package com.slogr.resources;
 
 import com.mongodb.client.MongoCollection;
 import com.slogr.core.User;
+import com.slogr.db.CrudUser;
 import com.slogr.db.MongoDriver;
 import org.bson.Document;
 import org.slf4j.Logger;
@@ -25,12 +26,14 @@ public class UserResource {
 
     private static MongoDriver driver = new MongoDriver();
 
+    private static CrudUser userOps = new CrudUser();
+
     @GET
     @Path("/basic")
     public Response getBasicUser() {
         LOGGER.info("basic user");
 
-        return Response.ok(new User(9L, "basic user", "basic password")).build();
+        return Response.ok(new User("basic user", "basic password")).build();
     }
 
     @POST
@@ -39,6 +42,8 @@ public class UserResource {
         // TODO: add the user to users collection in slogr db
         LOGGER.info("User email: " + user.getEmail());
         LOGGER.info("User password: " + user.getPassword());
+
+        userOps.createUser(user);
 
         return Response.ok("User successfully added").build();
     }

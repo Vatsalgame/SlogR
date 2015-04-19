@@ -51,4 +51,8 @@ public class MongoDriver {
         return documents;
     }
 
+    public MongoDatabase getDb() {
+        return db;
+    }
+
 }

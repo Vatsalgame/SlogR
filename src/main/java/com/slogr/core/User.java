@@ -9,7 +9,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class User {
 
-    private Long id;
     private String email;
     private String password;
 
@@ -17,15 +16,9 @@ public class User {
         // Jackson deserialization
     }
 
-    public User(Long id, String email, String password) {
-        this.id = id;
+    public User(String email, String password) {
         this.email = email;
         this.password = password;
-    }
-
-    @JsonProperty
-    public Long getId() {
-        return id;
     }
 
     @JsonProperty
