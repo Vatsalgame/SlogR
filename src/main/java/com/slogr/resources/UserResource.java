@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
+import java.util.List;
 
 /**
  * All the stuff regarding the User and its interactions
@@ -39,13 +40,20 @@ public class UserResource {
     @POST
     @Path("/addNewUser")
     public Response addNewUser(@Valid User user) {
-        // TODO: add the user to users collection in slogr db
         LOGGER.info("User email: " + user.getEmail());
         LOGGER.info("User password: " + user.getPassword());
 
         userOps.createUser(user);
 
         return Response.ok("User successfully added").build();
+    }
+
+    @GET
+    @Path("/getAllUsers")
+    public Response getAllUsers() {
+        List<User> users = userOps.getAllUsers();
+
+        return Response.ok(users).build();
     }
 
     @GET
