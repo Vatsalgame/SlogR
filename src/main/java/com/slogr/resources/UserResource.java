@@ -48,6 +48,19 @@ public class UserResource {
         return Response.ok("User successfully added").build();
     }
 
+    @POST
+    @Path("/login")
+    public Response login(@Valid User user) {
+        LOGGER.info("User email: " + user.getEmail());
+        LOGGER.info("User password: " + user.getPassword());
+
+        if (userOps.loginUser(user)) {
+            return Response.ok("User credentials valid").build();
+        } else {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+    }
+
     @GET
     @Path("/getAllUsers")
     public Response getAllUsers() {

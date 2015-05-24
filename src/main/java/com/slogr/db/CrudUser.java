@@ -5,8 +5,11 @@ import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.slogr.core.User;
 import org.bson.Document;
+import org.jasypt.util.password.StrongPasswordEncryptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import static com.mongodb.client.model.Filters.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +24,7 @@ public class CrudUser {
     private static final Logger LOGGER = LoggerFactory.getLogger(CrudUser.class);
 
     private static MongoDriver driver = new MongoDriver();
+    private static StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
 
     /**
      * Add the given user to the users collection
@@ -31,9 +35,26 @@ public class CrudUser {
         MongoCollection<Document> userCollection = db.getCollection("users");
 
         Document document = new Document("email", user.getEmail());
-        document.append("password", user.getPassword());
+
+        // Encrypt the password before storing it
+        String encryptedPassword = passwordEncryptor.encryptPassword(user.getPassword());
+        document.append("password", encryptedPassword);
 
         userCollection.insertOne(document);
+    }
+
+    /**
+     * Return whether the user credentials are valid or not
+     * @param user to be validated
+     * @return validity of user credentials
+     */
+    public boolean loginUser(User user) {
+        MongoDatabase db = driver.getDb();
+
+        Document document = db.getCollection("users").find(eq("email", user.getEmail())).first();
+
+        // Check if the user credentials are correct and return the result
+        return document != null && passwordEncryptor.checkPassword(user.getPassword(), document.getString("password"));
     }
 
     public List<User> getAllUsers() {
