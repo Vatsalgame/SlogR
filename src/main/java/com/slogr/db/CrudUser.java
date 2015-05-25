@@ -2,7 +2,6 @@ package com.slogr.db;
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
-import com.mongodb.client.MongoDatabase;
 import com.slogr.core.User;
 import org.bson.Document;
 import org.jasypt.util.password.StrongPasswordEncryptor;
@@ -23,7 +22,7 @@ public class CrudUser {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CrudUser.class);
 
-    private static MongoDriver driver = new MongoDriver();
+    private static MongoCollection<Document> userCollection = new MongoDriver().getDb().getCollection("users");
     private static StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
 
     /**
@@ -31,9 +30,6 @@ public class CrudUser {
      * @param user to be added
      */
     public void createUser(User user) {
-        MongoDatabase db = driver.getDb();
-        MongoCollection<Document> userCollection = db.getCollection("users");
-
         Document document = new Document("email", user.getEmail());
 
         // Encrypt the password before storing it
@@ -49,17 +45,27 @@ public class CrudUser {
      * @return validity of user credentials
      */
     public boolean loginUser(User user) {
-        MongoDatabase db = driver.getDb();
-
-        Document document = db.getCollection("users").find(eq("email", user.getEmail())).first();
+        Document document = userCollection.find(eq("email", user.getEmail())).first();
 
         // Check if the user credentials are correct and return the result
         return document != null && passwordEncryptor.checkPassword(user.getPassword(), document.getString("password"));
     }
 
+    /**
+     * Return whether the given user exits in the db already or not
+     * @param user whose existence is to be checked
+     * @return true if the user already exits
+     */
+    public boolean checkUserExistence(User user) {
+        Document dbUser = userCollection.find(eq("email", user.getEmail())).first();
+
+        return dbUser != null;
+    }
+
+    /**
+     * Return a list of all the users in the 'users' collection
+     */
     public List<User> getAllUsers() {
-        MongoDatabase db = driver.getDb();
-        MongoCollection<Document> userCollection = db.getCollection("users");
         MongoCursor<Document> userCursor = userCollection.find().iterator();
 
         List<User> users = new ArrayList<User>();

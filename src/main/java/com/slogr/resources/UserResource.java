@@ -43,9 +43,15 @@ public class UserResource {
         LOGGER.info("User email: " + user.getEmail());
         LOGGER.info("User password: " + user.getPassword());
 
-        userOps.createUser(user);
-
-        return Response.ok("User successfully added").build();
+        // Check if user exits, and react accordingly.
+        if (userOps.checkUserExistence(user)) {
+            // Throw a conflict error because user already exists
+            return Response.status(Response.Status.CONFLICT).build();
+        } else {
+            // Create the user
+            userOps.createUser(user);
+            return Response.ok("User successfully added").build();
+        }
     }
 
     @POST
