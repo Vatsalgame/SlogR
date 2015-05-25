@@ -1,0 +1,5 @@
+http://mongodb.github.io/mongo-java-driver/3.0/driver/getting-started/quick-tour/
+http://docs.mongodb.org/manual/core/data-modeling-introduction/
+
+VM Arguments:
+server target/classes/conf/settings.yaml
