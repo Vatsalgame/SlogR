@@ -13,6 +13,7 @@
     </properties>
 
     <dependencies>
+        <!-- Core dependencies (all from the dropwizard domain)-->
         <dependency>
             <groupId>io.dropwizard</groupId>
             <artifactId>dropwizard-core</artifactId>
@@ -33,11 +34,13 @@
             <artifactId>dropwizard-configuration</artifactId>
             <version>${dropwizard.version}</version>
         </dependency>
+        <!-- Java driver for MongoDB -->
         <dependency>
             <groupId>org.mongodb</groupId>
             <artifactId>mongo-java-driver</artifactId>
             <version>3.0.0</version>
         </dependency>
+        <!-- Java module for password encryption -->
         <dependency>
             <groupId>org.jasypt</groupId>
             <artifactId>jasypt</artifactId>
