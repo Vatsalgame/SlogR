@@ -20,4 +20,14 @@ angular.module('slogrApp',
     // TODO: Remove the following controller
     .controller('DemoControllerCustom', function($scope) {
         $scope.appName = 'SlogR';
+    })
+
+    .controller('TopBarController', function($scope, $location) {
+        /*
+            Set the location to the given path
+        */
+        $scope.setPath = function(path) {
+            $location.path("");
+            $location.path(path);
+        };
     });

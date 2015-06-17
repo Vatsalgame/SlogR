@@ -29,18 +29,20 @@
 
 <body>
     <!-- Top Bar -->
-    <section class="top-section">
+    <section class="top-section"
+             ng-controller="TopBarController">
         <div class="top-row row">
             <div class="title-name left">
                 SlogR
             </div>
-            <div class="login right">
-                <a ng-href="#/login">Login</a>
+            <div class="top-bar-link right"
+                 ng-click="setPath('/login')">
+                <a> Login </a>
             </div>
-            <div class="contact right">
+            <div class="top-bar-link right">
                 Contact
             </div>
-            <div class="about right">
+            <div class="top-bar-link right">
                 About
             </div>
         </div>
