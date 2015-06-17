@@ -1,0 +1,42 @@
+/*
+    Top Bar specific CSS
+*/
+.top-section {
+    padding: 1.5rem;
+    /* background-color: #FF6600; */
+    background: linear-gradient(orange, red);
+    position: fixed;
+    width: 100%;
+
+}
+
+.top-section .top-row {
+    color: whitesmoke;
+}
+
+.top-section .title-name {
+    font-size: 1.2rem;
+}
+
+.top-bar-padding {
+    padding-top: 5rem;
+}
+
+.top-bar-link {
+    padding: 0.1rem;
+}
+
+.top-bar-link a {
+    color: whitesmoke;
+}
+
+/*
+    SlogR Intro
+*/
+.slogr-intro {
+    background: url("/images/BeachRun.jpg");
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-size: cover;
+    height: 50rem;
+}
